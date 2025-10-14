@@ -3,4 +3,3 @@ node_modules/
 .env
 info.txt
 client
-server
