@@ -3,12 +3,9 @@
 # 🚀 CodeCrux
 ### *Your Ultimate Coding Companion*
 
-![CodeCrux Frontend](Video/frontendIMG.png)
+![CodeCrux](img/img.png)
 
-[![GitHub stars](https://img.shields.io/github/stars/aashutosh585/CodeCrux?style=social)](https://github.com/aashutosh585/CodeCrux)
-[![GitHub forks](https://img.shields.io/github/forks/aashutosh585/CodeCrux?style=social)](https://github.com/aashutosh585/CodeCrux)
-[![GitHub issues](https://img.shields.io/github/issues/aashutosh585/CodeCrux)](https://github.com/aashutosh585/CodeCrux/issues)
-[![License](https://img.shields.io/github/license/aashutosh585/CodeCrux)](https://github.com/aashutosh585/CodeCrux)
+**Created by Ashutosh Maurya**
 
 **Transform your coding journey with AI-powered learning, curated content, and comprehensive progress tracking**
 
