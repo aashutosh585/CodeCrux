@@ -5,7 +5,9 @@ export const getUserData = async (req, res) => {
         // Get userId from middleware (set by userAuth)
         const {userId} = req.body;
         
-        const user = await userModel.findById(userId); 
+        const user = await userModel.findById(userId)
+            .populate('completedSheets')
+            .populate('completedTutorials'); 
 
         if (!user) {
             return res.json({ success: false, message: 'User not found' });
@@ -17,7 +19,10 @@ export const getUserData = async (req, res) => {
                 name: user.name,
                 email: user.email,
                 isAccountVerified: user.isAccountVerified,
-                history: user.history || []
+                history: user.history || [],
+                // Progress tracking with populated data
+                completedSheets: user.completedSheets || [],
+                completedTutorials: user.completedTutorials || []
             }
         });
 
@@ -127,6 +132,84 @@ export const saveChatHistory = async (req, res) => {
             success: true,
             message: 'Chat history saved successfully',
             messageCount: messages.length
+        });
+
+    } catch (err) {
+        return res.json({ success: false, message: err.message });
+    }
+}
+
+
+
+// Toggle sheet completion
+export const toggleSheetCompletion = async (req, res) => {
+    try {
+        const { userId, sheetId } = req.body;
+        
+        if (!sheetId) {
+            return res.json({ success: false, message: 'Sheet ID is required' });
+        }
+
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.json({ success: false, message: 'User not found' });
+        }
+
+        const isCompleted = user.completedSheets.includes(sheetId);
+        
+        if (isCompleted) {
+            // Remove from completed sheets
+            user.completedSheets = user.completedSheets.filter(id => id.toString() !== sheetId);
+        } else {
+            // Add to completed sheets
+            user.completedSheets.push(sheetId);
+        }
+
+        await user.save();
+
+        res.json({
+            success: true,
+            message: isCompleted ? 'Sheet unmarked from completed' : 'Sheet marked as completed',
+            isCompleted: !isCompleted,
+            completedCount: user.completedSheets.length
+        });
+
+    } catch (err) {
+        return res.json({ success: false, message: err.message });
+    }
+}
+
+// Toggle tutorial completion
+export const toggleTutorialCompletion = async (req, res) => {
+    try {
+        const { userId, tutorialId } = req.body;
+        
+        if (!tutorialId) {
+            return res.json({ success: false, message: 'Tutorial ID is required' });
+        }
+
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.json({ success: false, message: 'User not found' });
+        }
+
+        const isCompleted = user.completedTutorials.includes(tutorialId);
+        
+        if (isCompleted) {
+            // Remove from completed tutorials
+            user.completedTutorials = user.completedTutorials.filter(id => id.toString() !== tutorialId);
+        } else {
+            // Add to completed tutorials
+            user.completedTutorials.push(tutorialId);
+        }
+
+        await user.save();
+
+        res.json({
+            success: true,
+            message: isCompleted ? 'Tutorial unmarked from completed' : 'Tutorial marked as completed',
+            isCompleted: !isCompleted,
+            completedCount: user.completedTutorials.length
         });
 
     } catch (err) {

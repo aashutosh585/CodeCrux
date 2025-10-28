@@ -6,6 +6,8 @@ import session from 'express-session';
 import connectDB from './config/mongodb.js';
 import authRouter from './routes/authRoutes.js';
 import userRouter from './routes/userRoutes.js';
+import adminRouter from './routes/adminRoutes.js';
+import publicRouter from './routes/publicRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -29,9 +31,10 @@ app.use(session({
 
 //  API EndPoints
 app.get('/', (req, res) => { res.send('API Working'); });
-// app.use('/api/ai', aiRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/public', publicRouter);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);

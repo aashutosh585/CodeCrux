@@ -1,18 +1,22 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { AppContent } from '../contexts/AppContext.jsx';
-import { useProgress } from '../contexts/ProgressContext.jsx';
 import { useDarkMode } from '../contexts/DarkModeContext.jsx';
-import { Code, User, Mail, Shield, ShieldCheck, Key, Award, Trophy, Target } from 'lucide-react';
+import { Code, User, Mail, Shield, ShieldCheck, Key, Award, Trophy, Target, Settings } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const Profile = () => {
   const { isDarkMode } = useDarkMode();
   const { userData, backendUrl } = useContext(AppContent);
-  const { sheetsCount, tutorialsCount, totalScore, aiMentorSessions } = useProgress();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+
+  // Default values for now - can be enhanced later with real progress data
+  const sheetsCount = userData?.completedSheets?.length || 0;
+  const tutorialsCount = userData?.completedTutorials?.length || 0;
+  const totalScore = (sheetsCount * 10) + (tutorialsCount * 5); // Example scoring
+  const aiMentorSessions = 0; // Default for now
 
   const containerClass = isDarkMode ? 'bg-gray-800/60 border-gray-700 text-white' : 'bg-white border-gray-200 text-gray-900';
   const mutedText = isDarkMode ? 'text-gray-400' : 'text-gray-600';
@@ -174,6 +178,29 @@ const Profile = () => {
             </div>
           </button>
         </div>
+
+        {/* Admin Panel - Only visible to admin email */}
+        {userData?.email === 'ashutoshmaurya585@gmail.com' && (
+          <div className={cardClass}>
+            <h2 className={`text-lg font-semibold mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Admin Panel</h2>
+            <button
+              onClick={() => navigate('/admin')}
+              className={`w-full flex items-center space-x-3 p-4 rounded-xl border transition-colors ${
+                isDarkMode
+                  ? 'border-emerald-600 hover:border-emerald-500 hover:bg-emerald-900/20'
+                  : 'border-emerald-200 hover:border-emerald-300 hover:bg-emerald-50'
+              }`}
+            >
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-600 to-teal-600 flex items-center justify-center">
+                <Settings className="w-5 h-5 text-white" />
+              </div>
+              <div className="text-left">
+                <p className={`font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Admin Dashboard</p>
+                <p className={`text-sm ${mutedText}`}>Manage sheets, tutorials and view analytics</p>
+              </div>
+            </button>
+          </div>
+        )}
 
       </div>
     </div>

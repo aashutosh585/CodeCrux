@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Play, Clock, Star, Users, CheckCircle } from 'lucide-react';
+import { AppContent } from '../contexts/AppContext';
 
-const TutorialCard = ({ tutorial, isDarkMode, completedTutorials, toggleTutorialCompletion }) => {
+const TutorialCard = ({ tutorial, isDarkMode }) => {
+  const { userData, toggleTutorialCompletion } = useContext(AppContent);
+  
+  // Check if tutorial is completed
+  const isCompleted = userData?.completedTutorials?.some(t => t._id === tutorial._id) || false;
   const getLevelColor = (level) => {
     switch(level) {
       case 'Beginner': return 'text-green-500 bg-green-100'
@@ -60,18 +65,18 @@ const TutorialCard = ({ tutorial, isDarkMode, completedTutorials, toggleTutorial
           <div className="flex items-center justify-between mb-2">
             <p className="text-xs text-gray-500">By {tutorial.instructor}</p>
             
-            {/* Improved completion button */}
+            {/* Completion button */}
             <button
-              onClick={() => toggleTutorialCompletion(tutorial.id)}
+              onClick={() => toggleTutorialCompletion(tutorial._id)}
               className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
-                completedTutorials.has(tutorial.id)
+                isCompleted
                   ? 'bg-green-100 text-green-700 hover:bg-green-200'
                   : isDarkMode 
                     ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
-              {completedTutorials.has(tutorial.id) ? (
+              {isCompleted ? (
                 <>
                   <CheckCircle className="w-3 h-3" />
                   <span>Completed</span>

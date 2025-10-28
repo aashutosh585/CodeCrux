@@ -1,6 +1,7 @@
-import React from 'react';
-import { ExternalLink, Star, Users, Code, CheckCircle } from 'lucide-react';
+import React, { useContext } from 'react';
+import { ExternalLink, Star, Users, Code, Brain, CheckCircle } from 'lucide-react';
 import TagList from './TagList.jsx';
+import { AppContent } from '../contexts/AppContext';
 
 // Helper function for difficulty colors
 const getDifficultyColor = (difficulty) => {
@@ -12,8 +13,11 @@ const getDifficultyColor = (difficulty) => {
   return colors[difficulty.split(' ')[0]] || "text-gray-500 bg-gray-50 border-gray-200";
 };
 
-const SheetCard = ({ sheet, isDarkMode, completedSheets, toggleSheetCompletion }) => {
-  const completed = completedSheets.has(sheet.id);
+const SheetCard = ({ sheet, isDarkMode }) => {
+  const { userData, toggleSheetCompletion } = useContext(AppContent);
+  
+  // Check if sheet is completed
+  const isCompleted = userData?.completedSheets?.some(s => s._id === sheet._id) || false;
 
   return (
     <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border rounded-lg overflow-hidden`}>
@@ -21,13 +25,11 @@ const SheetCard = ({ sheet, isDarkMode, completedSheets, toggleSheetCompletion }
         {/* Header */}
         <div className="flex items-start space-x-4 mb-4">
           <div className={`w-14 h-14 bg-gradient-to-br ${sheet.color} rounded-2xl flex items-center justify-center shadow-md`}>
-            {React.createElement(sheet.icon, { className: "w-7 h-7 text-white" })}
+            <Brain className="w-7 h-7 text-white" />
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between mb-2">
-              <h3 className={`text-lg font-bold leading-tight ${
-                completed ? `line-through ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}` : `${isDarkMode ? 'text-white' : 'text-gray-900'}`
-              }`}>
+              <h3 className={`text-lg font-bold leading-tight ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                 {sheet.title}
               </h3>
               {sheet.popular && (
@@ -79,44 +81,46 @@ const SheetCard = ({ sheet, isDarkMode, completedSheets, toggleSheetCompletion }
 
         {/* Actions */}
         <div className="flex items-center justify-between pt-3 border-t border-gray-200/50">
-          <div className="flex items-center space-x-1 text-xs text-gray-500">
-            <Users className="w-3 h-3" />
-            <span>{sheet.users} users</span>
-          </div>
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={() => toggleSheetCompletion(sheet.id)}
-              className={`flex items-center space-x-1.5 px-2 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
-                completed
-                  ? 'bg-green-100 text-green-700 hover:bg-green-200'
-                  : isDarkMode
-                    ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              {completed ? (
-                <>
-                  <CheckCircle className="w-3 h-3" />
-                  <span>Completed</span>
-                </>
-              ) : (
-                <>
-                  <div className="w-3 h-3 border border-current rounded-full" />
-                  <span>Mark Complete</span>
-                </>
-              )}
-            </button>
-            <a
-              href={sheet.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`px-4 py-2 text-sm font-semibold rounded-lg ${
-                isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-500 hover:bg-green-600'
-              } text-white transition-colors duration-200 flex items-center space-x-1`}
-            >
-              <span>Start</span>
-              <ExternalLink className="w-3 h-3" />
-            </a>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-1 text-xs text-gray-500">
+              <Users className="w-3 h-3" />
+              <span>{sheet.users} users</span>
+            </div>
+            <div className="flex items-center space-x-3">
+              <button
+                onClick={() => toggleSheetCompletion(sheet._id)}
+                className={`flex items-center space-x-1.5 px-2 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
+                  isCompleted
+                    ? 'bg-green-100 text-green-700 hover:bg-green-200'
+                    : isDarkMode
+                      ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                {isCompleted ? (
+                  <>
+                    <CheckCircle className="w-3 h-3" />
+                    <span>Completed</span>
+                  </>
+                ) : (
+                  <>
+                    <div className="w-3 h-3 border border-current rounded-full" />
+                    <span>Mark Complete</span>
+                  </>
+                )}
+              </button>
+              <a
+                href={sheet.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`px-4 py-2 text-sm font-semibold rounded-lg ${
+                  isDarkMode ? 'bg-green-600 hover:bg-green-700' : 'bg-green-500 hover:bg-green-600'
+                } text-white transition-colors duration-200 flex items-center space-x-1`}
+              >
+                <span>Start</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            </div>
           </div>
         </div>
       </div>

@@ -250,7 +250,7 @@ export const useAIMentor = (userData) => {
       setCurrentChatIndex(prev => (prev === null ? (history.length) : prev));
     } catch (err) {
       if (err?.name === 'AbortError') {
-        console.log('Streaming aborted');
+        // Streaming aborted by user
       } else {
         console.error('Error sending message:', err);
       }

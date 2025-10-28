@@ -1,34 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BookOpen } from 'lucide-react';
 import { useDarkMode } from '../contexts/DarkModeContext.jsx';
-import { useProgress } from '../contexts/ProgressContext.jsx';
-import popularSheets from '../data/SheetData.jsx';
+import { AppContent } from '../contexts/AppContext.jsx';
 import PageHeader from '../components/PageHeader.jsx';
-import ProgressSummary from '../components/ProgressSummary.jsx';
 import SearchFilter from '../components/SearchFilter.jsx';
 import SheetCard from '../components/SheetCard.jsx';
 
 const Sheet = () => {
   const { isDarkMode } = useDarkMode();
-  const { completedSheets, toggleSheetCompletion } = useProgress();
+  const { getSheets } = useContext(AppContent);
+  const [sheets, setSheets] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
+  // Fetch sheets from backend
+  useEffect(() => {
+    const fetchSheets = async () => {
+      setLoading(true);
+      const sheetsData = await getSheets();
+      setSheets(sheetsData);
+      setLoading(false);
+    };
+    fetchSheets();
+  }, [getSheets]);
+
+  // Generate categories dynamically based on loaded sheets
   const categories = [
-    { id: 'All', name: 'All' },
-    { id: 'DSA', name: 'DSA' },
-    { id: 'Interview', name: 'Interview' },
-    { id: 'Company Specific', name: 'Company Specific' }
+    { id: 'All', name: 'All', count: sheets.length },
+    ...Array.from(new Set(sheets.map(s => s.category))).map(category => ({
+      id: category,
+      name: category,
+      count: sheets.filter(s => s.category === category).length
+    }))
   ];
 
-  const filteredSheets = popularSheets.filter(sheet => {
+  const filteredSheets = sheets.filter(sheet => {
     const term = searchTerm.toLowerCase();
     const matchesSearch = sheet.title.toLowerCase().includes(term)
       || sheet.author.toLowerCase().includes(term)
-      || sheet.tags.some(tag => tag.toLowerCase().includes(term));
+      || (sheet.tags && sheet.tags.some(tag => tag.toLowerCase().includes(term)));
     const matchesCategory = selectedCategory === "All" || sheet.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
+
+  if (loading) {
+    return (
+      <div className="h-full p-6 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className={`text-lg ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Loading sheets...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="h-full p-6">
@@ -40,12 +65,6 @@ const Sheet = () => {
             title="Premium Coding Sheets"
             description="Handpicked collection of the most effective coding practice sheets trusted by millions of developers worldwide"
             isDarkMode={isDarkMode}
-          />
-          <ProgressSummary 
-            completed={completedSheets.size} 
-            total={filteredSheets.length} 
-            isDarkMode={isDarkMode}
-            bgColorClass="bg-blue-50"
           />
         </div>
 
@@ -63,11 +82,9 @@ const Sheet = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredSheets.map(sheet => (
             <SheetCard
-              key={sheet.id}
+              key={sheet._id}
               sheet={sheet}
               isDarkMode={isDarkMode}
-              completedSheets={completedSheets}
-              toggleSheetCompletion={toggleSheetCompletion}
             />
           ))}
         </div>

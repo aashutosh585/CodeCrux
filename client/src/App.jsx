@@ -1,7 +1,6 @@
 // src/App.jsx
 import { Routes, Route, Outlet } from 'react-router'
 import { DarkModeProvider } from './contexts/DarkModeContext.jsx'
-import { ProgressProvider } from './contexts/ProgressContext.jsx'
 import Home from './pages/Home.jsx'
 import Layout from './pages/Layout.jsx'
 import Dashboard from './components/Dashboard.jsx'
@@ -13,13 +12,13 @@ import Login from './pages/Login.jsx'
 import EmailVerify from './pages/EmailVerify.jsx'
 import ResetPassword from './pages/ResetPassword.jsx'
 import Profile from './pages/Profile.jsx'
+import AdminDashboard from './pages/AdminDashboard.jsx'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const App = () => (
   <DarkModeProvider>
-    <ProgressProvider>
-      <ToastContainer />
+    <ToastContainer />
     <Routes>
       {/* Public routes */}
       <Route path="/" element={<Home />} />
@@ -35,9 +34,9 @@ const App = () => (
         <Route path="sheet" element={<Sheet />} />
         <Route path="tutorials" element={<Tutorials />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="admin" element={<AdminDashboard />} />
       </Route>
     </Routes>
-    </ProgressProvider>
   </DarkModeProvider>
 )
 

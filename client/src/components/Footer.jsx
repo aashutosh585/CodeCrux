@@ -53,18 +53,36 @@ const Footer = () => {
                 Empowering the next generation of developers with AI-powered learning, interactive projects, and community support.
               </p>
               <div className="flex space-x-4">
-                <button className={`p-2 rounded-lg ${isDarkMode ? 'bg-gray-800 text-gray-300 hover:text-white' : 'bg-gray-100 text-gray-600 hover:text-gray-900'} transition-colors duration-200`}>
+                <a 
+                  href="https://github.com/aashutosh585" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className={`p-2 rounded-lg ${isDarkMode ? 'bg-gray-800 text-gray-300 hover:text-white' : 'bg-gray-100 text-gray-600 hover:text-gray-900'} transition-colors duration-200`}
+                >
                   <Github className="w-5 h-5" />
-                </button>
-                <button className={`p-2 rounded-lg ${isDarkMode ? 'bg-gray-800 text-gray-300 hover:text-white' : 'bg-gray-100 text-gray-600 hover:text-gray-900'} transition-colors duration-200`}>
+                </a>
+                <a 
+                  href="https://x.com/Ashutos86739582" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className={`p-2 rounded-lg ${isDarkMode ? 'bg-gray-800 text-gray-300 hover:text-white' : 'bg-gray-100 text-gray-600 hover:text-gray-900'} transition-colors duration-200`}
+                >
                   <Twitter className="w-5 h-5" />
-                </button>
-                <button className={`p-2 rounded-lg ${isDarkMode ? 'bg-gray-800 text-gray-300 hover:text-white' : 'bg-gray-100 text-gray-600 hover:text-gray-900'} transition-colors duration-200`}>
+                </a>
+                <a 
+                  href="https://www.linkedin.com/in/ashutosh585" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className={`p-2 rounded-lg ${isDarkMode ? 'bg-gray-800 text-gray-300 hover:text-white' : 'bg-gray-100 text-gray-600 hover:text-gray-900'} transition-colors duration-200`}
+                >
                   <Linkedin className="w-5 h-5" />
-                </button>
-                <button className={`p-2 rounded-lg ${isDarkMode ? 'bg-gray-800 text-gray-300 hover:text-white' : 'bg-gray-100 text-gray-600 hover:text-gray-900'} transition-colors duration-200`}>
+                </a>
+                <a 
+                  href="mailto:ashutoshmaurya585@gmail.com" 
+                  className={`p-2 rounded-lg ${isDarkMode ? 'bg-gray-800 text-gray-300 hover:text-white' : 'bg-gray-100 text-gray-600 hover:text-gray-900'} transition-colors duration-200`}
+                >
                   <Mail className="w-5 h-5" />
-                </button>
+                </a>
               </div>
             </div>
 
@@ -74,13 +92,46 @@ const Footer = () => {
                 Quick Links
               </h3>
               <ul className="space-y-2">
-                {['About Us', 'Courses', 'Pricing', 'Blog', 'Help Center'].map((link) => (
-                  <li key={link}>
-                    <button className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors duration-200`}>
-                      {link}
-                    </button>
-                  </li>
-                ))}
+                <li>
+                  <button 
+                    onClick={() => navigate('/sheets')}
+                    className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors duration-200`}
+                  >
+                    Practice Sheets
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => navigate('/tutorials')}
+                    className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors duration-200`}
+                  >
+                    Video Tutorials
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => navigate('/mentor-ai')}
+                    className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors duration-200`}
+                  >
+                    AI Mentor
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => navigate('/roadmap')}
+                    className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors duration-200`}
+                  >
+                    Learning Roadmap
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => navigate('/dashboard')}
+                    className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors duration-200`}
+                  >
+                    Dashboard
+                  </button>
+                </li>
               </ul>
             </div>
 
@@ -90,14 +141,34 @@ const Footer = () => {
                 Contact
               </h3>
               <ul className="space-y-2">
-                <li className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                  support@codecrux.com
+                <li>
+                  <a 
+                    href="mailto:ashutoshmaurya585@gmail.com" 
+                    className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors duration-200`}
+                  >
+                    ashutoshmaurya585@gmail.com
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="tel:+918601813566" 
+                    className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors duration-200`}
+                  >
+                    +91 8601813566
+                  </a>
                 </li>
                 <li className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                  +1 (555) 123-4567
+                  Sultanpur, Uttar Pradesh
                 </li>
-                <li className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                  San Francisco, CA
+                <li>
+                  <a 
+                    href="https://aashutosh.me" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className={`${isDarkMode ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} transition-colors duration-200`}
+                  >
+                    Portfolio: aashutosh.me
+                  </a>
                 </li>
               </ul>
             </div>

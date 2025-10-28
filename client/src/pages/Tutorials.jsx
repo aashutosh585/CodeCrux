@@ -1,26 +1,38 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { BookOpen } from 'lucide-react'
 import { useDarkMode } from '../contexts/DarkModeContext.jsx'
-import { useProgress } from '../contexts/ProgressContext.jsx'
-import tutorials from '../data/TutorialData.jsx'
+import { AppContent } from '../contexts/AppContext.jsx'
 import PageHeader from '../components/PageHeader.jsx'
-import ProgressSummary from '../components/ProgressSummary.jsx'
 import SearchFilter from '../components/SearchFilter.jsx'
 import TutorialCard from '../components/TutorialCard.jsx'
 
 const Tutorials = () => {
   const { isDarkMode } = useDarkMode()
-  const { completedTutorials, toggleTutorialCompletion } = useProgress()
+  const { getTutorials } = useContext(AppContent)
+  const [tutorials, setTutorials] = useState([])
+  const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
 
+  // Fetch tutorials from backend
+  useEffect(() => {
+    const fetchTutorials = async () => {
+      setLoading(true)
+      const tutorialsData = await getTutorials()
+      setTutorials(tutorialsData)
+      setLoading(false)
+    }
+    fetchTutorials()
+  }, [getTutorials])
+
+  // Generate categories dynamically based on loaded tutorials
   const categories = [
     { id: 'all', name: 'All Tutorials', count: tutorials.length },
-    { id: 'dsa', name: 'Data Structures', count: tutorials.filter(t => t.category === 'dsa').length },
-    { id: 'algorithms', name: 'Algorithms', count: tutorials.filter(t => t.category === 'algorithms').length },
-    { id: 'cp', name: 'Competitive Programming', count: tutorials.filter(t => t.category === 'cp').length },
-    { id: 'javascript', name: 'JavaScript', count: tutorials.filter(t => t.category === 'javascript').length },
-    { id: 'interview-prep', name: 'Interview Prep', count: tutorials.filter(t => t.category === 'interview-prep').length }
+    ...Array.from(new Set(tutorials.map(t => t.category))).map(category => ({
+      id: category,
+      name: category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' '),
+      count: tutorials.filter(t => t.category === category).length
+    }))
   ]
 
   const filteredTutorials = tutorials.filter(tutorial => {
@@ -29,6 +41,17 @@ const Tutorials = () => {
     const matchesCategory = selectedCategory === 'all' || tutorial.category === selectedCategory
     return matchesSearch && matchesCategory
   })
+
+  if (loading) {
+    return (
+      <div className="h-full p-6 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className={`text-lg ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Loading tutorials...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="h-full p-6">
@@ -40,12 +63,6 @@ const Tutorials = () => {
             title="Video Tutorials"
             description="Learn from expert instructors with hands-on projects"
             isDarkMode={isDarkMode}
-          />
-          <ProgressSummary 
-            completed={completedTutorials.size} 
-            total={filteredTutorials.length} 
-            isDarkMode={isDarkMode}
-            bgColorClass="bg-green-50"
           />
         </div>
 
@@ -63,11 +80,9 @@ const Tutorials = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredTutorials.map((tutorial) => (
             <TutorialCard
-              key={tutorial.id}
+              key={tutorial._id}
               tutorial={tutorial}
               isDarkMode={isDarkMode}
-              completedTutorials={completedTutorials}
-              toggleTutorialCompletion={toggleTutorialCompletion}
             />
           ))}
         </div>
