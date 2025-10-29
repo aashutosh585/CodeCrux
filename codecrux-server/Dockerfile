@@ -9,4 +9,4 @@ COPY . .
 
 EXPOSE 4000
 
-CMD ["nodemon", "server.js"]
+CMD ["npm", "start"]
