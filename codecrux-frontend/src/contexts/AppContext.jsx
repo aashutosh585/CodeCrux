@@ -8,7 +8,7 @@ export const AppContextProvider = (props)=>{
 
     axios.defaults.withCredentials = true;
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userData, setUserData] = useState(false);
 
@@ -20,7 +20,8 @@ export const AppContextProvider = (props)=>{
                 getUserData();
             }
         } catch (error) {
-            toast.error(error.message);
+            console.error('Auth state error:', error);
+            toast.error('Connection error. Please try again.');
         }
     };
 

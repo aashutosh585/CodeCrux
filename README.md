@@ -2,11 +2,9 @@
 
 <div align="center">
 
-### *Your Ultimate DSA Learning Platform*
-
 ![CodeCrux](img/img.png)
 
-[🚀 Live Demo](https://codecrux.vercel.app) • [📚 Documentation](#getting-started) • [🤝 Contributing](#contributing) • [🔧 Admin Dashboard](#admin-features)
+[🚀 Live Demo](https://code-crux-ten.vercel.app) • [📖 API Backend](https://codecrux1.onrender.com) • [📚 Documentation](#getting-started) • [🤝 Contributing](#contributing)
 
 </div>
 
@@ -142,6 +140,17 @@ CodeCrux/
 └── README.md                   # This file
 ```
 
+## 🌐 Live Deployment
+
+- **Frontend**: [https://code-crux-ten.vercel.app](https://code-crux-ten.vercel.app)
+- **Backend API**: [https://codecrux1.onrender.com](https://codecrux1.onrender.com)
+- **Database**: MongoDB Atlas (Cloud)
+
+**Deployment Architecture**:
+- Frontend deployed on **Vercel** (React SPA with optimized routing)
+- Backend deployed on **Render** (Node.js API with Docker support)
+- Database hosted on **MongoDB Atlas** (Cloud database service)
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -175,16 +184,20 @@ cd ../codecrux-frontend && npm install
 **Backend Environment** (`codecrux-server/.env`):
 ```env
 # Database
-MONGODB_URI=mongodb://localhost:27017/codecrux
+MONGODB_URI=mongodb+srv://your-username:your-password@cluster.mongodb.net/codecrux
 
 # JWT Authentication
 JWT_SECRET=your-super-secret-jwt-key-minimum-32-characters
 
-# Email Service (Gmail SMTP)
-EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
-EMAIL_USER=your-email@gmail.com
-EMAIL_PASS=your-gmail-app-password
+# Email Service (Brevo SMTP)
+SMTP_USER=your-smtp-user@smtp-brevo.com
+SMTP_PASS=your-brevo-api-key
+SENDER_EMAIL=your-email@gmail.com
+
+# Google OAuth
+GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+GOOGLE_CALLBACK_URL=http://localhost:4000/api/auth/google/callback
 
 # Server Configuration
 PORT=4000
@@ -194,7 +207,7 @@ NODE_ENV=development
 **Frontend Environment** (`codecrux-frontend/.env`):
 ```env
 # Backend API URL
-VITE_BACKEND_URL=http://localhost:4000
+VITE_API_URL=http://localhost:4000/api
 
 # Google Gemini AI API Key
 VITE_GEMINI_API_KEY=your-gemini-api-key-here
@@ -327,32 +340,50 @@ npm run build:all     # Build both applications for production
 
 ## 🚀 Deployment
 
-### Frontend Deployment (Vercel/Netlify)
+### Production Environment (Current)
+- **Frontend**: Deployed on **Vercel** → [https://code-crux-ten.vercel.app](https://code-crux-ten.vercel.app)
+- **Backend**: Deployed on **Render** → [https://codecrux1.onrender.com](https://codecrux1.onrender.com)
+- **Database**: MongoDB Atlas (Cloud)
+
+### Frontend Deployment (Vercel)
 ```bash
 cd codecrux-frontend
 npm run build
-# Deploy dist/ folder to your hosting service
+# Deploy dist/ folder or connect GitHub repository to Vercel
 ```
 
-### Backend Deployment (Railway/Render/Heroku)
+**Vercel Configuration** (`vercel.json`):
+```json
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ]
+}
+```
+
+### Backend Deployment (Render)
 ```bash
 cd codecrux-server  
-# Set environment variables in hosting platform
-# Deploy with Node.js runtime
+# Set environment variables in Render dashboard
+# Deploy with Node.js runtime using start command
 ```
 
 ### Environment Variables for Production
 ```env
-# Backend Production
+# Backend Production (Render)
 MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/codecrux
 JWT_SECRET=your-production-jwt-secret-32-chars-minimum
-EMAIL_USER=your-production-email@domain.com
-EMAIL_PASS=your-production-email-password
+SMTP_USER=your-brevo-smtp-user
+SMTP_PASS=your-brevo-api-key
+SENDER_EMAIL=your-email@domain.com
+GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+GOOGLE_CALLBACK_URL=https://codecrux1.onrender.com/api/auth/google/callback
 PORT=4000
 NODE_ENV=production
 
-# Frontend Production  
-VITE_BACKEND_URL=https://your-backend-domain.com
+# Frontend Production (Vercel)
+VITE_API_URL=https://codecrux1.onrender.com/api
 VITE_GEMINI_API_KEY=your-production-gemini-key
 ```
 
