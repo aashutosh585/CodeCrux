@@ -91,7 +91,7 @@ CodeCrux is a **full-stack DSA learning platform** designed for coding interview
 
 ```
 CodeCrux/
-├── client/                     # React Frontend Application
+├── codecrux-frontend/          # React Frontend Application
 │   ├── src/
 │   │   ├── components/         # Reusable UI Components (14 files)
 │   │   │   ├── ChatInput.jsx       # AI chat input interface
@@ -116,7 +116,7 @@ CodeCrux/
 │   │   │   └── RoadmapData.jsx     # Learning roadmap structure
 │   │   └── assets/             # Images, icons, utilities (10 files)
 │   └── package.json
-├── server/                     # Express Backend API
+├── codecrux-server/            # Express Backend API
 │   ├── controllers/            # Business Logic Controllers (4 files)
 │   │   ├── authController.js       # Authentication logic
 │   │   ├── userController.js       # User data management
@@ -164,15 +164,15 @@ npm run install:all   # or install manually below
 2. **Manual Installation**
 ```bash
 # Backend dependencies
-cd server && npm install
+cd codecrux-server && npm install
 
 # Frontend dependencies  
-cd ../client && npm install
+cd ../codecrux-frontend && npm install
 ```
 
 3. **Environment Configuration**
 
-**Backend Environment** (`server/.env`):
+**Backend Environment** (`codecrux-server/.env`):
 ```env
 # Database
 MONGODB_URI=mongodb://localhost:27017/codecrux
@@ -191,7 +191,7 @@ PORT=4000
 NODE_ENV=development
 ```
 
-**Frontend Environment** (`client/.env`):
+**Frontend Environment** (`codecrux-frontend/.env`):
 ```env
 # Backend API URL
 VITE_BACKEND_URL=http://localhost:4000
@@ -213,16 +213,16 @@ VITE_GEMINI_API_KEY=your-gemini-api-key-here
 5. **Start Development Servers**
 ```bash
 # Terminal 1 - Backend API (Port 4000)
-cd server && npm start
+cd codecrux-server && npm start
 
 # Terminal 2 - Frontend React App (Port 5173)  
-cd client && npm run dev
+cd codecrux-frontend && npm run dev
 ```
 
 6. **Access Application**
 - **Frontend**: http://localhost:5173
 - **Backend API**: http://localhost:4000
-- **API Documentation**: server/API_DOCUMENTATION.md
+- **API Documentation**: codecrux-server/API_DOCUMENTATION.md
 
 ## � API Reference
 
@@ -267,7 +267,7 @@ GET    /sheets            # Get all published practice sheets
 GET    /tutorials         # Get all published video tutorials
 ```
 
-> **📋 Complete API Documentation**: See `server/API_DOCUMENTATION.md` for detailed request/response schemas
+> **📋 Complete API Documentation**: See `codecrux-server/API_DOCUMENTATION.md` for detailed request/response schemas
 
 ## 🎯 Core Features & Implementation
 
@@ -312,7 +312,7 @@ npm run preview    # Preview production build locally
 npm run lint       # Run ESLint code analysis
 ```
 
-**Backend (Server)**
+**Backend (CodeCrux Server)**
 ```bash
 npm start          # Start production server
 npm run dev        # Start with nodemon auto-reload
@@ -320,7 +320,7 @@ npm run dev        # Start with nodemon auto-reload
 
 **Root Scripts**
 ```bash
-npm run install:all    # Install dependencies for both client and server
+npm run install:all    # Install dependencies for both frontend and backend
 npm run dev:full      # Start both frontend and backend concurrently
 npm run build:all     # Build both applications for production
 ```
@@ -329,14 +329,14 @@ npm run build:all     # Build both applications for production
 
 ### Frontend Deployment (Vercel/Netlify)
 ```bash
-cd client
+cd codecrux-frontend
 npm run build
 # Deploy dist/ folder to your hosting service
 ```
 
 ### Backend Deployment (Railway/Render/Heroku)
 ```bash
-cd server  
+cd codecrux-server  
 # Set environment variables in hosting platform
 # Deploy with Node.js runtime
 ```
@@ -464,7 +464,7 @@ git push origin feature/your-feature-name
 
 **🚀 Built with passion for the coding community**
 
-[⭐ Star this repo](https://github.com/aashutosh585/CodeCrux) • [🐛 Report Issues](https://github.com/aashutosh585/CodeCrux/issues) • [💡 Request Features](https://github.com/aashutosh585/CodeCrux/issues) • [📖 Documentation](server/API_DOCUMENTATION.md)
+[⭐ Star this repo](https://github.com/aashutosh585/CodeCrux) • [🐛 Report Issues](https://github.com/aashutosh585/CodeCrux/issues) • [💡 Request Features](https://github.com/aashutosh585/CodeCrux/issues) • [📖 Documentation](codecrux-server/API_DOCUMENTATION.md)
 
 **Made with ❤️ in India 🇮🇳**
 

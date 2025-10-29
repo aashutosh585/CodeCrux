@@ -1,5 +1,12 @@
-node_modules
+# Dependencies
 node_modules/
+
+# Environment Variables
 .env
-info.txt
+
+# Build outputs
+dist/
+build/
+
 README_backup.md
+info.txt

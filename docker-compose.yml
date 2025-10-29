@@ -1,0 +1,52 @@
+name: codecrux_app
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: codecrux_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - codecrux_app
+
+  backend:
+    build: 
+      context: ./codecrux-server
+      dockerfile: Dockerfile
+    env_file:
+      - ./codecrux-server/.env
+    volumes:
+      - ./codecrux-server:/app
+      - /app/node_modules
+    networks:
+      - codecrux_app
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mongo
+    command: npm run server
+
+  frontend:
+    build: 
+      context: ./codecrux-frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./codecrux-frontend:/app
+      - /app/node_modules
+    networks:
+      - codecrux_app
+    command: npm run dev -- --host 0.0.0.0 --port 5173
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
+
+networks:
+  codecrux_app:
+    driver: bridge
+
